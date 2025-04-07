@@ -1,3 +1,12 @@
-build:
-  language: python
-  pythonVersion: 3.13.2
+[phases.setup]
+nixPkgs = ["python311", "postgresql"]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[phases.build]
+cmds = ["python manage.py collectstatic --noinput"]
+
+[start]
+cmd = "gunicorn backend.wsgi:application"
+
