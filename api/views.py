@@ -103,7 +103,7 @@ class FarmerDashboardViewSet(APIView):
 
 # ✅ Product Upload View (Authenticated user only)
 class ProductUploadView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     parser_classes = (MultiPartParser, FormParser)  # Support file uploads
 
     def post(self, request, *args, **kwargs):

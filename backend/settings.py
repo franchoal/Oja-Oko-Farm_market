@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 # import dj_database_url 
+from urllib.parse import urlparse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,7 +10,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '9XOGyqqV-euH5TA8yRnYMtOFWm5C-QQigkB
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # 🌍 Allowed Hosts
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0').split(',')
+
 
 # ✅ Installed Apps
 INSTALLED_APPS = [
@@ -72,15 +74,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-# ✅ Database
+# DATABASE_URL should be set to connect correctly to the database in Docker
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgres://raphwealth_user:1985-franK@db:5432/raphwealth_db')  # Use 'db' instead of 'localhost'
+
+url = urlparse(DATABASE_URL)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'raphwealth_db'),
-        'USER': os.getenv('DB_USER', 'raphwealth_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', '1985-franK'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'NAME': url.path[1:],  # Remove the leading slash
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,  # This should now resolve to 'db' inside the Docker network
+        'PORT': url.port,
     }
 }
 

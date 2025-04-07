@@ -10,3 +10,9 @@ cmds = ["python manage.py collectstatic --noinput"]
 [start]
 cmd = "gunicorn backend.wsgi:application"
 
+[phases.setup]
+nixPkgs = ["python311", "postgresql", "ffmpeg", "imagemagick"]
+[phases.install]
+cmds = ["pip install --cache-dir /tmp/pip-cache -r requirements.txt"]
+[start]
+cmd = "gunicorn backend.wsgi:application & another-command"

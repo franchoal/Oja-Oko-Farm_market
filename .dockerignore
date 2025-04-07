@@ -1,0 +1,9 @@
+# Ignore unnecessary files and directories
+.git
+.venv
+__pycache__
+*.pyc
+*.pyo
+node_modules
+*.db
+*.log
