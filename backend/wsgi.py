@@ -19,7 +19,3 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
 # Get the WSGI application
 application = get_wsgi_application()
-
-# Run with Waitress if this script is executed directly
-if __name__ == "__main__":
-    serve(application, host='0.0.0.0', port=8000)

@@ -2,17 +2,14 @@
 nixPkgs = ["python311", "postgresql"]
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = [
+  "pip install --cache-dir /tmp/pip-cache -r requirements.txt"
+]
 
 [phases.build]
-cmds = ["python manage.py collectstatic --noinput"]
+cmds = [
+  "python manage.py collectstatic --noinput"
+]
 
 [start]
 cmd = "gunicorn backend.wsgi:application"
-
-[phases.setup]
-nixPkgs = ["python311", "postgresql", "ffmpeg", "imagemagick"]
-[phases.install]
-cmds = ["pip install --cache-dir /tmp/pip-cache -r requirements.txt"]
-[start]
-cmd = "gunicorn backend.wsgi:application & another-command"
