@@ -2,7 +2,14 @@ import os
 from pathlib import Path
 import dj_database_url
 import logging
+
+# Set up logger
 logger = logging.getLogger(__name__)
+
+# 🔧 Define DATABASE_URL here
+DATABASE_URL = os.getenv('DATABASE_URL', '')
+
+# Log a warning if DATABASE_URL is not set
 if not DATABASE_URL:
     logger.warning("DATABASE_URL not set. Using local database settings.")
 
@@ -77,9 +84,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 # ✅ Database Setup - Local and Production Support
-DATABASE_URL = os.getenv('DATABASE_URL', '')
-
-# Use default local database if DATABASE_URL is not set
 if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
@@ -129,4 +133,6 @@ CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000'
 if DEBUG:
     import mimetypes
     mimetypes.add_type("image/svg+xml", ".svg", True)
+
+# ✅ Default Auto Field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
